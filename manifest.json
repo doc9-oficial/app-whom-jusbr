@@ -1,0 +1,85 @@
+{
+  "name": "app-whom-jusbr",
+  "version": "1.0.0",
+  "description": "App para busca de processos na base do jus.br utilizando o Whom",
+  "auth": {
+    "description": {
+      "title": "Credenciais de acesso à API do Whom",
+      "body": "Para utilizar esta aplicação, é necessário obter um token de acesso à API do Whom.",
+      "footer": "Token necessário para autenticação",
+      "link": "https://doc9.com.br/whom/"
+    },
+    "params": [
+      {
+        "name": "whomToken",
+        "type": "string",
+        "inputType": "password",
+        "required": true
+      },
+      {
+        "name": "whomExtensionId",
+        "type": "string",
+        "inputType": "text",
+        "required": true
+      }
+    ]
+  },
+  "functions": {
+    "buscarProcessos": {
+      "name": "Whom - Buscar Processos via jus.br",
+      "icon": "Gavel",
+      "script": "dist/buscarProcessos.js",
+      "description": "Busca processos com base no número, OAB, CPF ou CNPJ, retornando detalhes como partes envolvidas, advogados, tribunal e status.",
+      "category": "tribunais",
+      "values": {
+        "pesquisarPor": "",
+        "valor": ""
+      },
+      "params": [
+        {
+          "name": "pesquisarPor",
+          "type": "string",
+          "inputType": "select",
+          "required": true,
+          "label": "Pesquisar por",
+          "options": [
+            {
+              "label": "Número do processo",
+              "value": "PROCESSO"
+            },
+            {
+              "label": "Número da OAB",
+              "value": "OAB"
+            },
+            {
+              "label": "CPF",
+              "value": "CPF"
+            },
+            {
+              "label": "CNPJ",
+              "value": "CNPJ"
+            }
+          ]
+        },
+        {
+          "name": "valor",
+          "type": "string",
+          "inputType": "text",
+          "required": true,
+          "label": "Valor para pesquisa"
+        }
+      ],
+      "help": {
+        "title": "Como usar a função buscarProcessos",
+        "body": "Para utilizar a função buscarProcessos, selecione o critério de pesquisa (número do processo, OAB, CPF ou CNPJ) e forneça o valor correspondente. A função retornará uma lista de processos que correspondem ao critério selecionado, incluindo detalhes como partes envolvidas, advogados, tribunal e status.",
+        "footer": "Certifique-se de que as informações fornecidas estejam corretas para obter resultados precisos."
+      }
+    }
+  },
+  "config": {
+    "timeout": 30000,
+    "max_retries": 3,
+    "cache_ttl": 3600
+  },
+  "mcp": true
+}
