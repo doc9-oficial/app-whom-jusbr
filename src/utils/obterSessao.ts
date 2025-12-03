@@ -7,16 +7,25 @@ async function requestLoginFromWhom(
     token: whomToken,
     extension_id: whomExtensionId,
   };
-  const resp = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(jsonData),
-  });
-
-  const data = await resp.json();
-  return data;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds
+  try {
+    const resp = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+      },
+      body: JSON.stringify(jsonData),
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+    const data = await resp.json();
+    return data;
+  } catch (error) {
+    clearTimeout(timeoutId);
+    throw error;
+  }
 }
 
 async function requestSessionFromWhom(
@@ -38,6 +47,9 @@ async function requestSessionFromWhom(
   for (let i = 0; i < 10; i++) {
     const resp = await fetch(`${url}?${queryParams}`, {
       method: "GET",
+      headers: {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+      },
     });
     const sessionData = await resp.json();
 
@@ -156,6 +168,7 @@ async function obterSessao(
 
     const cookies = session.data.cookies;
     const cookieHeader = cookies
+      .filter((c: any) => c.domain && (c.domain.includes('jus.br') || c.domain.includes('keycloak')))
       .map((c: any) => `${c.name}=${c.value}`)
       .join("; ");
 

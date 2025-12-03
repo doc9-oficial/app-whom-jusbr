@@ -77,7 +77,7 @@
     }
   },
   "config": {
-    "timeout": 30000,
+    "timeout": 120000,
     "max_retries": 3,
     "cache_ttl": 3600
   },
