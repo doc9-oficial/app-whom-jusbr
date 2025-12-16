@@ -26,11 +26,11 @@
   },
   "functions": {
     "buscarProcessos": {
-      "name": "Whom - Buscar Processos via jus.br",
+      "name": "Whom - Buscar Processos via JusBR",
       "icon": "Gavel",
       "script": "dist/buscarProcessos.js",
       "description": "Busca processos com base no número, OAB, CPF ou CNPJ, retornando detalhes como partes envolvidas, advogados, tribunal e status.",
-      "category": "tribunais",
+      "category": "judicial",
       "values": {
         "pesquisarPor": "",
         "valor": ""
