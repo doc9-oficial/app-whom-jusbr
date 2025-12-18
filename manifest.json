@@ -30,7 +30,7 @@
       "icon": "Gavel",
       "script": "dist/buscarProcessos.js",
       "description": "Busca processos com base no número, OAB, CPF ou CNPJ, retornando detalhes como partes envolvidas, advogados, tribunal e status.",
-      "category": "judicial",
+      "category": "juridico",
       "values": {
         "pesquisarPor": "",
         "valor": ""
