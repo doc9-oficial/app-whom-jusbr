@@ -5,9 +5,14 @@
   "auth": {
     "description": {
       "title": "Credenciais de acesso à API do Whom",
-      "body": "Para utilizar esta aplicação, é necessário obter um token de acesso à API do Whom.",
+      "body": "Acesse seu painel administrativo do Whom e realize uma concessão de acesso para um integrador. Ao realizar a concessão, a chave ficará disponível na tela inicial em dados da concessão.",
       "footer": "Token necessário para autenticação",
-      "link": "https://doc9.com.br/whom/"
+      "link": [
+        {
+          "label": "Acessar Whom",
+          "url": "https://doc9.com.br/whom/"
+        }
+      ]
     },
     "params": [
       {
@@ -16,7 +21,7 @@
         "inputType": "password",
         "required": true
       },
-      {
+      { 
         "name": "whomExtensionId",
         "type": "string",
         "inputType": "text",
