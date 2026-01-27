@@ -7,12 +7,10 @@
       "title": "Credenciais de acesso à API do Whom",
       "body": "Acesse seu painel administrativo do Whom e realize uma concessão de acesso para um integrador. Ao realizar a concessão, a chave ficará disponível na tela inicial em dados da concessão.",
       "footer": "Token necessário para autenticação",
-      "link": [
-        {
-          "label": "Acessar Whom",
-          "url": "https://doc9.com.br/whom/"
-        }
-      ]
+      "link": {
+        "label": "Acessar Whom",
+        "url": "https://doc9.com.br/whom/"
+      }
     },
     "params": [
       {
