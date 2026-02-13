@@ -1,49 +1,27 @@
 async function requestLoginFromWhom(
   whomToken: string,
-  whomExtensionId: string,
+  whomExtensionId: string
 ) {
   const url = "https://cloud.doc9.com.br/api/auth/";
-
   const jsonData = {
     token: whomToken,
     extension_id: whomExtensionId,
   };
-
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000);
-
+  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds
   try {
-    const params = new URLSearchParams(jsonData);
-
-    const infoResponse = await fetch(`${url}info?${params}`, {
-      method: "GET",
-      signal: controller.signal,
-    });
-
-    const infoJson = await infoResponse.json();
-    const infoPayload = infoJson?.data;
-
-    const certificadoToken = infoPayload?.tokens?.find(
-      (element: { system: string; token: string }) =>
-        element.system === "jus_br_certificado"
-    );
-
-    if (certificadoToken) {
-      jsonData.token = certificadoToken.token;
-    }
-
-    const loginResponse = await fetch(url, {
+    const resp = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
       },
       body: JSON.stringify(jsonData),
       signal: controller.signal,
     });
-    
     clearTimeout(timeoutId);
-    const loginData = await loginResponse.json();
-    return loginData;
+    const data = await resp.json();
+    return data;
   } catch (error) {
     clearTimeout(timeoutId);
     throw error;
