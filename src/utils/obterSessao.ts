@@ -2,7 +2,7 @@ async function requestLoginFromWhom(
   whomToken: string,
   whomExtensionId: string,
 ) {
-  const url = "https://cloud.doc9.com.br/api/auth";
+  const url = "https://cloud.doc9.com.br/api/auth/";
 
   const jsonData = {
     token: whomToken,
@@ -15,7 +15,7 @@ async function requestLoginFromWhom(
   try {
     const params = new URLSearchParams(jsonData);
 
-    const infoResponse = await fetch(`${url}/info?${params}`, {
+    const infoResponse = await fetch(`${url}info?${params}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
