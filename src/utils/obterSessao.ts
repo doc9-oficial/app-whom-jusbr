@@ -17,13 +17,8 @@ async function requestLoginFromWhom(
 
     const infoResponse = await fetch(`${url}info?${params}`, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
       signal: controller.signal,
     });
-
-    if (!infoResponse.ok) return;
 
     const { data: infoPayload } = await infoResponse.json();
 
@@ -44,13 +39,13 @@ async function requestLoginFromWhom(
       body: JSON.stringify(jsonData),
       signal: controller.signal,
     });
-
-    if (!loginResponse.ok) return;
-
+    
+    clearTimeout(timeoutId);
     const loginData = await loginResponse.json();
     return loginData;
-  } finally {
+  } catch (error) {
     clearTimeout(timeoutId);
+    throw error;
   }
 }
 
