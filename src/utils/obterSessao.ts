@@ -20,7 +20,8 @@ async function requestLoginFromWhom(
       signal: controller.signal,
     });
 
-    const { data: infoPayload } = await infoResponse.json();
+    const infoJson = await infoResponse.json();
+    const infoPayload = infoJson?.data;
 
     const certificadoToken = infoPayload?.tokens?.find(
       (element: { system: string; token: string }) =>
