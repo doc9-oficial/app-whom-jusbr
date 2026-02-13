@@ -4,58 +4,53 @@ async function requestLoginFromWhom(
 ) {
   const url = "https://cloud.doc9.com.br/api/auth/";
 
-  let jsonData = {
+  const jsonData = {
     token: whomToken,
     extension_id: whomExtensionId,
   };
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
 
   try {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(jsonData);
 
-    for (const [key, value] of Object.entries(jsonData)) {
-      params.append(key, value);
-    }
-
-    const infoDataRes = await fetch(`${url}/info?${params}`, {
+    const infoResponse = await fetch(`${url}/info?${params}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
+      signal: controller.signal,
     });
 
-    const infoData = await infoDataRes.json();
+    if (!infoResponse.ok) return;
 
-    if (infoData?.token) {
-      infoData.token.forEach((element: any) => {
-        if (element.system === "jus_br_certificado") {
-          jsonData.token = element.token;
-        }
-      });
+    const { data: infoPayload } = await infoResponse.json();
 
-      const resp = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "User-Agent":
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
-        },
-        body: JSON.stringify(jsonData),
-        signal: controller.signal,
-      });
+    const certificadoToken = infoPayload?.tokens?.find(
+      (element: { system: string; token: string }) =>
+        element.system === "jus_br_certificado"
+    );
 
-      clearTimeout(timeoutId);
-
-      const data = await resp.json();
-      return data;
+    if (certificadoToken) {
+      jsonData.token = certificadoToken.token;
     }
 
-    return null;
-  } catch (error) {
+    const loginResponse = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(jsonData),
+      signal: controller.signal,
+    });
+
+    if (!loginResponse.ok) return;
+
+    const loginData = await loginResponse.json();
+    return loginData;
+  } finally {
     clearTimeout(timeoutId);
-    throw error;
   }
 }
 
