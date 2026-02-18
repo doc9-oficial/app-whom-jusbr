@@ -2,6 +2,7 @@
   "name": "app-whom-jusbr",
   "version": "1.0.0",
   "description": "App para busca de processos na base do jus.br utilizando o Whom",
+  "icon": "FileUp",
   "auth": {
     "description": {
       "title": "Credenciais de acesso à API do Whom",
