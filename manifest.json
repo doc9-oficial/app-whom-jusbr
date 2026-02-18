@@ -1,5 +1,6 @@
 {
   "name": "app-whom-jusbr",
+  "displayName": "Whom",
   "version": "1.0.0",
   "description": "App para busca de processos na base do jus.br utilizando o Whom",
   "icon": "FileUp",
